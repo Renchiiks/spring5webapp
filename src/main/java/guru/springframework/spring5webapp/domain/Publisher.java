@@ -6,32 +6,24 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Author {
+public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String firstName;
-    private String lastName;
+    private String address;
 
-    @ManyToMany(mappedBy = "authors")
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "publisher_id")
     private Set<Book> books = new HashSet<>();
 
-    public Author() {
+    public Publisher() {
     }
 
-    public Author(String firstName, String lastName) {
+    public Publisher(String firstName, String address) {
         this.firstName = firstName;
-        this.lastName = lastName;
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.address = address;
     }
 
     public String getFirstName() {
@@ -42,12 +34,12 @@ public class Author {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Set<Book> getBooks() {
@@ -58,12 +50,20 @@ public class Author {
         this.books = books;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
-        return "Author{" +
+        return "Publisher{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 
@@ -71,8 +71,8 @@ public class Author {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Author author = (Author) o;
-        return Objects.equals(id, author.id);
+        Publisher publisher = (Publisher) o;
+        return Objects.equals(id, publisher.id);
     }
 
     @Override
